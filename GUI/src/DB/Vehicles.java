@@ -80,6 +80,12 @@ public class Vehicles implements CONSTANTSDB {
 		return fields;
 	}
 
+	/**
+	 * Update the field of a document in the collection "vehiculo"
+	 * 
+	 * @param pFields ArrayList of values
+	 * @return -1 if the document doen's exists, 0 if success
+	 */
 	public int update(ArrayList<String> pFields) {
 
 		MongoClient mongoClient = new MongoClient();
@@ -112,6 +118,84 @@ public class Vehicles implements CONSTANTSDB {
 		vehicleCollection.updateOne(filter, updateOpDoc);
 		mongoClient.close();
 		return 0;
+	}
+
+	/**
+	 * Update one field of a specific document in the collection "vehiculo"
+	 * 
+	 * @param pPlate    Plate number
+	 * @param pKey      Field name to update
+	 * @param pKeyValue New value
+	 * @return -1 if the vehicle doesn't exists, 0 if success
+	 */
+	public int updateOneField(String pPlate, String pKey, String pKeyValue) {
+
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase db = mongoClient.getDatabase("RentACarDB");
+		MongoCollection<Document> vehicleCollection = db.getCollection("vehiculo");
+
+		if (vehicleCollection.find(Filters.eq(VEHICLE_FIELDS[PLATE_IDX], pPlate)).first() == null) {
+			mongoClient.close();
+			return -1;
+		}
+
+		Bson filter = new Document(VEHICLE_FIELDS[PLATE_IDX], pPlate);
+		Document update = new Document(pKey, pKeyValue);
+
+		Bson updateOpDoc = new Document("$set", update);
+		vehicleCollection.updateOne(filter, updateOpDoc);
+		mongoClient.close();
+		return 0;
+	}
+
+	/**
+	 * Obtains all the documents in the collection "vehiculo"
+	 * 
+	 * @return ArrayList with all documents fields
+	 */
+	public ArrayList<ArrayList<String>> getVehicles() {
+
+		ArrayList<ArrayList<String>> vehicles = new ArrayList<ArrayList<String>>();
+
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase db = mongoClient.getDatabase("RentACarDB");
+		MongoCollection<Document> vehicleCollection = db.getCollection("vehiculo");
+
+		for (Document doc : vehicleCollection.find()) {
+			ArrayList<String> vehicle = new ArrayList<String>();
+			for (int i = 1; i < VEHICLE_FIELDS.length + 1; i++)
+				vehicle.add(doc.get(VEHICLE_FIELDS[i - 1]).toString().replaceAll("\\[*\\]*", ""));
+			vehicles.add(vehicle);
+		}
+
+		mongoClient.close();
+		return vehicles;
+	}
+
+	/**
+	 * Obtains all the documents in the collection "vehiculo" that meets the
+	 * condition pKey = pKeyValue
+	 * 
+	 * @param pKey      Field name
+	 * @param pKeyValue Value of field
+	 * @return ArrayList with the documents fields
+	 */
+	public ArrayList<ArrayList<String>> filterVehicles(String pKey, String pKeyValue) {
+		ArrayList<ArrayList<String>> vehicles = new ArrayList<ArrayList<String>>();
+
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase db = mongoClient.getDatabase("RentACarDB");
+		MongoCollection<Document> vehicleCollection = db.getCollection("vehiculo");
+
+		for (Document doc : vehicleCollection.find(Filters.eq(pKey, pKeyValue))) {
+			ArrayList<String> vehicle = new ArrayList<String>();
+			for (int i = 1; i < VEHICLE_FIELDS.length + 1; i++)
+				vehicle.add(doc.get(VEHICLE_FIELDS[i - 1]).toString().replaceAll("\\[*\\]*", ""));
+			vehicles.add(vehicle);
+		}
+
+		mongoClient.close();
+		return vehicles;
 	}
 
 }

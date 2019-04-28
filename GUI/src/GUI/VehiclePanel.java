@@ -194,20 +194,20 @@ public class VehiclePanel extends JPanel implements ActionListener, CONTANTSGUI 
 	 */
 	public void displayVehicle(ArrayList<String> pFields) {
 		_create.setVisible(false);
-		_plateTx.setText(pFields.get(PLATE_IDX));
-		_capacityTx.setText(pFields.get(CAPACITY_IDX));
-		_brandTx.setText(pFields.get(BRAND_IDX));
-		_styleTx.setText(pFields.get(STYLE_IDX));
-		_modelTx.setText(pFields.get(MODEL_IDX));
-		_colorTx.setText(pFields.get(COLOR_IDX));
-		_ccTx.setText(pFields.get(CC_IDX));
-		_fuels.setSelectedItem(pFields.get(FUEL_IDX));
-		_transmissions.setSelectedItem(pFields.get(TRANSMISSION_IDX));
-		_yearTx.setText(pFields.get(YEAR_IDX));
-		_extrasTx.setText(pFields.get(EXTRAS_IDX));
-		_passengersTx.setText(pFields.get(PASSENGERS_IDX));
-		_rentPriceTx.setText(pFields.get(RENT_PRICE_IDX));
-		_states.setSelectedItem(pFields.get(STATE_IDX));
+		_plateTx.setText(pFields.get(IDX_PLATE));
+		_capacityTx.setText(pFields.get(IDX_CAPACITY));
+		_brandTx.setText(pFields.get(IDX_BRAND));
+		_styleTx.setText(pFields.get(IDX_STYLE));
+		_modelTx.setText(pFields.get(IDX_MODEL));
+		_colorTx.setText(pFields.get(IDX_COLOR));
+		_ccTx.setText(pFields.get(IDX_CC));
+		_fuels.setSelectedItem(pFields.get(IDX_FUEL));
+		_transmissions.setSelectedItem(pFields.get(IDX_TRANSMISSION));
+		_yearTx.setText(pFields.get(IDX_YEAR));
+		_extrasTx.setText(pFields.get(IDX_EXTRAS));
+		_passengersTx.setText(pFields.get(IDX_PASSENGERS));
+		_rentPriceTx.setText(pFields.get(IDX_RENT_PRICE));
+		_states.setSelectedItem(pFields.get(IDX_STATE));
 	}
 
 	/**

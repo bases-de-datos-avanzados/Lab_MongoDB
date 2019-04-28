@@ -21,20 +21,23 @@ public interface CONTANTSGUI {
 	public static String ID_LB = "Cédula";
 
 	// -------- VehiclePanel
-	public static int PLATE_IDX = 0;
-	public static int CAPACITY_IDX = 1;
-	public static int BRAND_IDX = 2;
-	public static int STYLE_IDX = 3;
-	public static int MODEL_IDX = 4;
-	public static int COLOR_IDX = 5;
-	public static int CC_IDX = 6;
-	public static int FUEL_IDX = 7;
-	public static int TRANSMISSION_IDX = 8;
-	public static int YEAR_IDX = 9;
-	public static int EXTRAS_IDX = 10;
-	public static int PASSENGERS_IDX = 11;
-	public static int RENT_PRICE_IDX = 12;
-	public static int STATE_IDX = 13;
+	public static int IDX_PLATE = 0;
+	public static int IDX_CAPACITY = 1;
+	public static int IDX_BRAND = 2;
+	public static int IDX_STYLE = 3;
+	public static int IDX_MODEL = 4;
+	public static int IDX_COLOR = 5;
+	public static int IDX_CC = 6;
+	public static int IDX_FUEL = 7;
+	public static int IDX_TRANSMISSION = 8;
+	public static int IDX_YEAR = 9;
+	public static int IDX_EXTRAS = 10;
+	public static int IDX_PASSENGERS = 11;
+	public static int IDX_RENT_PRICE = 12;
+	public static int IDX_STATE = 13;
+
+	public static String[] VEHICLE_FIELDS = { "placa", "capacidad", "marca", "estilo", "modelo", "color", "cilindrada",
+			"combustible", "transmision", "año", "extras", "pasajeros", "precio", "estado" };
 
 	public static String PLATE_LB = "Placa";
 	public static String CAPATICY_LB = "Capacidad";
