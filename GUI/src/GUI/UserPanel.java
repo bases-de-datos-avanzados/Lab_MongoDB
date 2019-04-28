@@ -15,19 +15,20 @@ import javax.swing.JTextField;
 import DB.Users;
 
 @SuppressWarnings("serial")
-public class UserPanel extends JPanel implements ActionListener, CONTANTSGUI{
-	
+public class UserPanel extends JPanel implements ActionListener, CONTANTSGUI {
+
 	private GridBagLayout _gbLayout;
 	private GridBagConstraints _gbc;
-	
+
 	private JButton _create;
 	private JLabel _id, _name, _lastName, _email, _phones;
 	private JTextField _idTx, _nameTx, _lastNameTx, _emailTx, _phonesTx;
-	
+
 	private Users _users;
-	
+
 	/**
 	 * Class constructor
+	 * 
 	 * @param pUsers Class that manage connection to the DB
 	 */
 	public UserPanel(Users pUsers) {
@@ -38,8 +39,7 @@ public class UserPanel extends JPanel implements ActionListener, CONTANTSGUI{
 		initElements();
 		addElements();
 	}
-	
-	
+
 	/**
 	 * Wipes the text fields
 	 */
@@ -50,8 +50,7 @@ public class UserPanel extends JPanel implements ActionListener, CONTANTSGUI{
 		_emailTx.setText("");
 		_phonesTx.setText("");
 	}
-	
-	
+
 	/**
 	 * Initialize all the objects used
 	 */
@@ -69,58 +68,66 @@ public class UserPanel extends JPanel implements ActionListener, CONTANTSGUI{
 		_emailTx = new JTextField(20);
 		_phonesTx = new JTextField(8);
 	}
-	
-	
+
 	/**
-	 * Adds all the labels and text fields to the panel
-	 * according to the position constraints.
+	 * Adds all the labels and text fields to the panel according to the position
+	 * constraints.
 	 */
 	private void addElements() {
 		_gbc.fill = GridBagConstraints.HORIZONTAL;
 		_gbc.insets = new Insets(10, 2, 10, 2);
-		
-		_gbc.gridx = 0; _gbc.gridy = 0;
+
+		_gbc.gridx = 0;
+		_gbc.gridy = 0;
 		this.add(_id, _gbc);
-		_gbc.gridx = 1; _gbc.gridy = 0;
+		_gbc.gridx = 1;
+		_gbc.gridy = 0;
 		this.add(_idTx, _gbc);
-		
+
 		_gbc.insets = new Insets(10, 30, 10, 2);
-		_gbc.gridx = 2; _gbc.gridy = 0;
+		_gbc.gridx = 2;
+		_gbc.gridy = 0;
 		this.add(_name, _gbc);
 		_gbc.insets = new Insets(10, 2, 10, 2);
-		_gbc.gridx = 3; _gbc.gridy = 0;
+		_gbc.gridx = 3;
+		_gbc.gridy = 0;
 		this.add(_nameTx, _gbc);
-		
+
 		_gbc.insets = new Insets(10, 30, 10, 2);
-		_gbc.gridx = 4; _gbc.gridy = 0;
+		_gbc.gridx = 4;
+		_gbc.gridy = 0;
 		this.add(_lastName, _gbc);
 		_gbc.insets = new Insets(10, 2, 10, 2);
-		_gbc.gridx = 5; _gbc.gridy = 0;
+		_gbc.gridx = 5;
+		_gbc.gridy = 0;
 		this.add(_lastNameTx, _gbc);
-		
-		//_gbc.insets = new Insets(2, 30, 2, 2);
-		_gbc.gridx = 0; _gbc.gridy = 1;
+
+		// _gbc.insets = new Insets(2, 30, 2, 2);
+		_gbc.gridx = 0;
+		_gbc.gridy = 1;
 		this.add(_phones, _gbc);
 		_gbc.insets = new Insets(2, 2, 2, 2);
-		_gbc.gridx = 1; _gbc.gridy = 1;
+		_gbc.gridx = 1;
+		_gbc.gridy = 1;
 		this.add(_phonesTx, _gbc);
-		
+
 		_gbc.insets = new Insets(2, 30, 2, 2);
-		_gbc.gridx = 2; _gbc.gridy = 1;
+		_gbc.gridx = 2;
+		_gbc.gridy = 1;
 		this.add(_email, _gbc);
 		_gbc.insets = new Insets(2, 2, 2, 2);
-		_gbc.gridx = 3; _gbc.gridy = 1;
+		_gbc.gridx = 3;
+		_gbc.gridy = 1;
 		this.add(_emailTx, _gbc);
-		
+
 		_gbc.insets = new Insets(2, 30, 2, 2);
-		_gbc.gridx = 3; _gbc.gridy = 2;
+		_gbc.gridx = 3;
+		_gbc.gridy = 2;
 		this.add(_create, _gbc);
 	}
-	
-	
+
 	/**
-	 * Display the information of a user in the 
-	 * text fields
+	 * Display the information of a user in the text fields
 	 * 
 	 * @param pFields Info of the user
 	 */
@@ -132,7 +139,7 @@ public class UserPanel extends JPanel implements ActionListener, CONTANTSGUI{
 		_phonesTx.setText(pFields.get(IDX_PHONE));
 		_emailTx.setText(pFields.get(IDX_EMAIL));
 	}
-	
+
 	/**
 	 * Disable all the text fields so they can't be edited
 	 */
@@ -143,8 +150,7 @@ public class UserPanel extends JPanel implements ActionListener, CONTANTSGUI{
 		_phonesTx.setEditable(false);
 		_emailTx.setEditable(false);
 	}
-	
-	
+
 	/**
 	 * Enable all the text fields so they can be edited
 	 */
@@ -155,46 +161,37 @@ public class UserPanel extends JPanel implements ActionListener, CONTANTSGUI{
 		_phonesTx.setEditable(true);
 		_emailTx.setEditable(true);
 	}
-	
-	
+
 	/**
 	 * Set the visibility of the "Create" button to true
 	 */
 	public void showCreateButton() {
 		_create.setVisible(true);
 	}
-	
-	
+
 	/**
-	 * Extract the text in all text fields to update a
-	 * user in the DB
+	 * Extract the text in all text fields to update a user in the DB
 	 * 
 	 * @return Result of the update operation
 	 */
 	public int updateUser() {
-		int result = _users.update(_idTx.getText().trim(), 
-				_nameTx.getText().trim(), 
-				_lastNameTx.getText().trim(), 
-				_emailTx.getText().trim(), 
-				_phonesTx.getText().trim());
-		if (result != 0) System.out.println("Usuario ya esta registrado");
-		
+		int result = _users.update(_idTx.getText().trim(), _nameTx.getText().trim(), _lastNameTx.getText().trim(),
+				_emailTx.getText().trim(), _phonesTx.getText().trim());
+		if (result != 0) // REPLACE ME!!
+			System.out.println("Usuario ya esta registrado");
+
 		return result;
 	}
-	
-
 
 	@Override
 	public void actionPerformed(ActionEvent pEvent) {
-		if(pEvent.getSource() == _create) {
-			int result = _users.insert(_idTx.getText().trim(), 
-					_nameTx.getText().trim(), 
-					_lastNameTx.getText().trim(), 
-					_emailTx.getText().trim(), 
-					_phonesTx.getText().trim());
-			if (result != 0) System.out.println("Usuario ya esta registrado");
+		if (pEvent.getSource() == _create) {
+			int result = _users.insert(_idTx.getText().trim(), _nameTx.getText().trim(), _lastNameTx.getText().trim(),
+					_emailTx.getText().trim(), _phonesTx.getText().trim());
+			if (result != 0) // REPLACE ME!!
+				System.out.println("Usuario ya esta registrado");
 		}
-		
+
 	}
 
 }
