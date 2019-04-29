@@ -7,8 +7,11 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 
 public class Vehicles implements CONSTANTSDB {
@@ -196,6 +199,100 @@ public class Vehicles implements CONSTANTSDB {
 
 		mongoClient.close();
 		return vehicles;
+	}
+
+	/**
+	 * Obtains all the different values (as String) of a specific field in the
+	 * collection "vehiculo
+	 * 
+	 * @return ArrayList with the field value
+	 */
+	public ArrayList<String> getDistinctFields(String pKey) {
+		ArrayList<String> fields = new ArrayList<String>();
+
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase db = mongoClient.getDatabase("RentACarDB");
+		MongoCollection<Document> vehicleCollection = db.getCollection("vehiculo");
+
+		if (vehicleCollection.count() == 0) {
+			mongoClient.close();
+			return null;
+		}
+
+		for (String field : vehicleCollection.distinct(pKey, String.class)) {
+			fields.add(field);
+		}
+
+		mongoClient.close();
+		return fields;
+	}
+
+	/**
+	 * Obtain the quantity of vehicles of a specific brand
+	 * 
+	 * @param pBrand Brand of vehicle
+	 * @return Number of vehicles
+	 */
+	public int getNumberBrandVehicles(String pBrand) {
+
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase db = mongoClient.getDatabase("RentACarDB");
+		MongoCollection<Document> vehicleCollection = db.getCollection("vehiculo");
+
+		Document query = new Document("marca", pBrand);
+		return (int) vehicleCollection.count(query);
+	}
+
+	/**
+	 * Obtains the plate numbers of the vehicles of a specific brand that has the
+	 * minimum and maximum price of rent for day
+	 * 
+	 * @param pBrand Brand of the vehicle
+	 * @return Plates of the vehicles
+	 */
+	public String[] getVehicleMinMixPrice(String pBrand) {
+
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase db = mongoClient.getDatabase("RentACarDB");
+		MongoCollection<Document> vehicleCollection = db.getCollection("vehiculo");
+
+		Document match = new Document("$match", new Document("marca", pBrand));
+		Document sort = new Document("$sort", new Document("precio", 1));
+		Document project = new Document("$project", new Document("placa", "$placa").append("_id", 0));
+
+		vehicleCollection.aggregate(Arrays.asList(match, sort, project));
+
+		AggregateIterable<Document> result = vehicleCollection.aggregate(Arrays.asList(match, sort, project));
+
+		String plateMin = result.first().get(VEHICLE_FIELDS[PLATE_IDX]).toString();
+
+		String plateMax = "";
+		for (Document doc : result)
+			plateMax = doc.get(VEHICLE_FIELDS[PLATE_IDX]).toString();
+
+		String[] minMax = { plateMin, plateMax };
+
+		return minMax;
+	}
+
+	/**
+	 * Obtains the average price of rent for day for all vehicles of a specific
+	 * brand
+	 * 
+	 * @param pBrand Brand of vehicle
+	 * @return Integer value of average
+	 */
+	public int getAVGPrice(String pBrand) {
+
+		MongoClient mongoClient = new MongoClient();
+		MongoDatabase db = mongoClient.getDatabase("RentACarDB");
+		MongoCollection<Document> vehicleCollection = db.getCollection("vehiculo");
+
+		AggregateIterable<Document> result = vehicleCollection
+				.aggregate(Arrays.asList(Aggregates.match(Filters.eq("marca", pBrand)),
+						Aggregates.group("0", Accumulators.avg("promedio", "$precio"))));
+
+		return result.first().getDouble("promedio").intValue();
 	}
 
 }

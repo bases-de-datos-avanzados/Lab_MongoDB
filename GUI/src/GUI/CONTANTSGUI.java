@@ -4,6 +4,8 @@ public interface CONTANTSGUI {
 
 	public static int WD_WIDTH = 800;
 	public static int WD_HEIGHT = 600;
+	public static int WD_VH_INFO_WIDTH = 700;
+	public static int WD_VH_INFO_HEIGHT = 300;
 
 	// ------- tabbedPanel
 	public static String START_LB = "Inicio";
